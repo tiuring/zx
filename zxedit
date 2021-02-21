@@ -1,0 +1,35 @@
+#!/bin/bash
+# Use CtRL-R and number if text
+# only in X ((
+if [ $# -lt 1 ]
+then
+ echo Usage
+ echo $0 number
+ echo ZX. NOT OK
+else
+   . $(dirname $0)/zxconf
+   if type xdotool &>/dev/null
+   then
+      if xdotool version &>/dev/null
+          then
+                for i in $(grep "^$1 " $ZXPROG)
+                   do
+                     xdotool type $i 
+                     xdotool key space
+                   done
+          else
+                while read cmd 
+                do
+                  history -s $cmd
+                done <$ZXPROG
+                echo $0 users xdotool
+                echo xdootol requires X11
+                echo LISTING loaded to history
+                echo Instead Use CTRL-R and  enter $1
+                echo Aborting...
+          fi
+      else
+      echo "You need to install xdotool"
+   fi
+   
+fi

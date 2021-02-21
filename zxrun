@@ -1,0 +1,8 @@
+#!/bin/bash
+. $(dirname $0)/zxconf
+cut -f2- -d' '  $ZXPROG>$ZXPROG.run
+echo 'echo [] Finished $$' >>$ZXPROG.run
+echo  'echo ZX. OK' >>$ZXPROG.run
+. $ZXPROG.run
+
+

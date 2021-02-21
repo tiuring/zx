@@ -1,0 +1,15 @@
+echo A echo B echo C
+echo no
+echo 30
+echo 40
+echo 50
+ls
+pwd
+whoami
+echo /home/user/ZX/zxrun
+echo handreeed
+echo 200
+for i in *; do echo $i; done
+echo 1000
+echo [] Finished $$
+echo ZX. OK

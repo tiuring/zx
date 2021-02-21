@@ -1,0 +1,21 @@
+#!/bin/bash
+D=$(dirname $0)
+. $D/zxconf
+
+echo "Processing number $1"
+
+#To do: check sourse or not
+#To do: check already alias for $O
+alias $1="zxset $1"
+#Not practis but clear
+
+echo $*
+#removing old string with number $1
+grep -v "^$1 " $ZXPROG>$ZXPROG.tmp
+cp $ZXPROG $ZXPROG.bak
+echo $* >>$ZXPROG.tmp
+cat $ZXPROG.tmp|sort -h>$ZXPROG
+#rm $ZXPROG.tmp
+echo ZX Ok
+
+

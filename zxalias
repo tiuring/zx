@@ -1,0 +1,32 @@
+
+#need to fix if /usr/bin/bash etc
+if [ "bash" == "$0" -o "-bash" == "$0" ]
+then
+#Need to fix varnames F D A - not clear
+ D=$(cd $(dirname $BASH_SOURCE)&&pwd)
+# F=$(readlink -e $BASH_SOURCE)
+# D=$(dirname $F)
+ A=$(basename $BASH_SOURCE)
+ echo "You're running as $0"
+ echo "That's feel good"
+ echo $0 aliasing $A
+ alias zxrun='. zxrun'
+ #Do it really need? to check
+
+ alias zxset='. zxset'
+
+ alias ..='. zxset' 
+ alias zxcopy='. zxcopy'
+ alias zxedit='. zxedit'
+#Need to fix if PATH already set
+ echo "Set PATH $D"
+ PATH="$PATH:$D"
+ echo "ZX Ok"
+else
+ echo ZX Not ok
+ echo $0
+ echo USAGE
+ echo . $0
+fi
+
+
