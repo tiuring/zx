@@ -18,7 +18,7 @@ zx tools for bash (In ZX SPECTRUM Spirit)
 
 ---
 
-* **zx10alias** также создает алиасы на 10..90 100..990
+* **zx10alias** также создает алиасы на 10..90 100..990 и вызывает zxalias
 
 Пример:
 
