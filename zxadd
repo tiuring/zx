@@ -1,20 +1,65 @@
 #!/bin/bash
+#set -x
 
-#it works only if use simlinks
-#not works with alias
-#for alias user instead zxset
+function warning_usage (){
+echo zxtools not started
+echo run zxtools:
+echo . ./zxsetup
+}
 
-D=$(dirname $0)
-. $D/zxconf
-O=$(basename $0)
-. zxset "$O" "$*"
-#CO="#0 $*"
-#echo $CO
-#grep -v "$O " $ZXPROG>$ZXPROG.tmp
-#cp $ZXPROG $ZXPROG.bak
-#echo $CO >>$ZXPROG.tmp
-#cat $ZXPROG.tmp|sort -h>$ZXPROG
-#rm $ZXPROG.tmp
-#echo ZX Ok
 
+if ! type zx_is_sourced &>/dev/null 
+ then
+    echo zx_is_sourced_cherl
+    warning_usage
+ elif  [ "$ZX_MODE" == "" ]
+    then
+      echo zx_mode_check
+      warning_usage
+ else #final
+
+  zx_is_sourced
+  is_sourced=$?
+
+  if [ "$ZX_MODE" == "alias" -a ! "$is_sourced" ]
+  then
+      echo $0 in alias mode must be called as sourced
+      echo . $0 $*
+  elif [ ! "$is_sourced" -a "$ZX_MODE" != "alias" -a "$(basename \"$0\")" == "zxadd" ]
+     then
+      echo $0 in not alias mode should not be run as zxadd
+      echo You should run it as simlink, 10,20 etc. 
+  else
+        if [ "$is_sourced" ] 
+           then
+             COMMAND_LINE=$1
+             shift
+           else
+             COMMAND_LINE=$0
+        fi 
+       echo "Processing number $COMMAND_LINE"
+
+#To do: check sourse or not
+#To do: check already alias for $O
+       type $0 &>/dev/null
+       line_aliased=$?
+
+       if [ $is_sourced -a ! $line_aliased ]
+        then 
+         alias $COMMAND_LINE=". zxadd $COMMAND_LINE"
+       fi 
+
+
+      #removing old string with number $1
+      grep -v "^${COMMAND_LINE} " $ZX_SRC>$ZX_SRC.tmp
+      cp $ZX_SRC $ZX_SRC.bak
+      echo "$COMMAND_LINE $*     #${COMMAND_LINE}">>$ZX_SRC.tmp
+      cat $ZX_SRC.tmp|sort -h >$ZX_SRC
+      #rm $ZX_SRC.tmp
+      echo ZX Ok
+
+ fi
+fi
+
+#set +x
 

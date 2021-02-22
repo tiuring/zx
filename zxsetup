@@ -1,0 +1,75 @@
+#!/bin/bash
+
+function  zx_is_sourced()
+{
+ [ "$0" == "bash" -o  "$0" == "-bash" ]&&return 0
+ return 1 
+}
+
+
+# main:
+
+if [ "$ZX_PATH"  != "" -o "$ZX_SRC" != "" -o "$ZX_MODE" != "" ]
+then
+   echo "It's seems to me the zxtools already set"
+   echo "Nothing to do"
+elif ! zx_is_sourced
+   then
+      echo "USAGE:"
+      echo ". $0 MODE"
+      echo "Or add this line to ~/.profile"
+      echo "Where is"
+      echo "MODE alias (default) -- aliases"
+      echo "MODE links -- links"
+      echo "MODE other -- other solve of starting by 10, 20"
+else
+     {
+
+      ZX_PATH=$(cd $(dirname $BASH_SOURCE)&&pwd) 
+      # ZX_USR ZX_SRC ZX_MODE ZX_LN
+      . $ZX_PATH/zxconfig
+
+	 PATH=$(echo ${PATH/:$ZX_PATH/})
+	 PATH=$(echo ${PATH/:$ZX_LN/})
+	 PATH=$PATH:$ZX_PATH
+      test -d "$ZX_USR"||mkdir $ZX_USR
+      
+      test "$1" != "" && case "$1" in
+        "links") ZX_MODE="links";
+                test -d "$ZX_LN"||mkdir $ZX_LN
+		PATH=$PATH:$ZX_LN
+         ;;
+        "other") ZX_MODE="other" ;;
+        "alias") ZX_MODE="alias";ZX_LN="" ;;
+      esac
+     
+      echo "Mode is $ZX_MODE"
+      
+
+     # ZX_NUMBERS=$(echo {1..100}0 )
+      
+      case $ZX_MODE in
+        "links")
+	   test -d "$ZX_LN"||mkdir  $ZX_LN
+           for i in $ZX_NUMBERS
+             do
+                test -e "$ZX_LN/$i"||ln -s $ZX_PATH/zxadd $ZX_LN/$i
+             done && echo links created
+            ;;
+        "alias")
+          for i in $ZX_NUMBERS
+            do
+              alias $i=". zxadd $i"
+            done && echo aliases created
+           ;;
+         "other")
+            echo Mode other
+            echo Expecting the LNFS, which cretaing symlinks automatically
+            echo OR bash supporing of  cmds like 10 20 30 etc
+            ;;
+      esac	
+     } 
+fi
+
+
+

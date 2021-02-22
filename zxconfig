@@ -1,0 +1,49 @@
+#global zxconfig
+#it's better to do and to use ~/.zx/zxconfig
+
+#zx_list {1..12} will generate lists
+alias zx_list=echo #to fix - not zxlist
+
+# .. is alias to . zxadd
+alias ..='. zxadd'
+
+# run as source
+alias zxcopy=' . zxcopy'
+alias zxunsetup='. zxunsetup'
+alias zxenv='. zxenv'
+
+#ZX_PATH is the PATH where is zxtools located
+#it's automatically set from dirname of zxsetup
+export ZX_PATH
+
+#ZX_USR is a HOME USER DIRECTORY FOR TEMPORARY FILES AND LOCAL CONFIGS
+export ZX_USR=~/.zx
+
+#ZX_SRC is a  temporary storage of edited bash script file
+export ZX_SRC=$ZX_USR/zxsrc
+
+#ZX_LN is a directory with simlyncs for zxadd
+export ZX_LN=$ZX_USR/ln
+
+#ZX_MODE -- mode of executions commands like 10 echo Hello world
+# alias -- 10 aliased
+# link -- 10 is symlink
+# other -- the execution of command is supported by bash version 
+#          or by special fs, automatically genreates symlincs like procfs
+export ZX_MODE=alias
+
+#ZX_SAVE -- name of edited file to save
+export ZX_SAVE
+
+#ZX_NUMBERS -- preset of alias/symlinks
+export ZX_NUMBERS=$(zx_list {1..100}0)
+
+
+#including local zxconfig
+
+test -e "$ZX_USR/zxconfig"&& . $ZX_USR/zxconfig
+
+
+
+#zxlist -- lits the src
+alias zxlist="cat $ZX_SRC"

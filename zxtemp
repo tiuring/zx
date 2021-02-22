@@ -1,3 +1,6 @@
-echo $0
-echo $BASH_SOURCE
+echo RETURN 0
+return 0
+
+echo RETURN 1
+return 1
 

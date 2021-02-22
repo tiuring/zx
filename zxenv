@@ -1,0 +1,32 @@
+#!/bin/bash
+echo "Use $0 -a to all env"
+
+function prnenv()
+{
+echo $1=$(eval "echo $(echo $1)")
+}
+
+for i in ZX_PATH ZX_SRC ZX_MODE ZX_LN ZX_NUMBERS
+ do
+  prnenv \$$i
+ done
+
+
+echo \$PATH=$PATH
+
+for i in ".. zx_is_sourced zx_list "
+do
+ type $i 2>/dev/null
+done
+if [ "$1" == "-a" -o "$1" == "a" ]
+then
+
+test "$ZX_NUMBERS" != "" && for i in $ZX_NUMBERS
+ do
+  type $i
+ done
+
+test "$ZX_LN" != "" -a -d "$ZX_LN" &&ls $ZX_LN 
+
+fi
+

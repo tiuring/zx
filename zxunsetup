@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [ "bash" != "$0" -a "-bash" != "$0" ]
+   then
+      echo "USAGE:"
+      echo ". $0"
+
+elif [ "$ZX_PATH"  == "" -a "$ZX_SRC" == "" -a "$ZX_MODE" == "" ]
+then
+   echo "It's seems to me the zxtools already un set"
+   echo "Nothing to do"
+
+else
+     {      
+      case $ZX_MODE in
+        "links")
+	   test -d $ZX_LN||mkdir  $ZX_LN
+           for i in $ZX_NUMBERS
+             do
+                test -e $ZX_LN/$i&&rm $ZX_LN/$i
+             done && echo links removed
+            ;;
+        "alias")
+          for i in $ZX_NUMBERS
+            do
+              unalias $i
+            done && echo aliases deleted 
+           ;;
+         "other")
+            echo Still nothing to do ... 
+            ;;
+      esac
+ #remove ZX_PATH an ZX_LN from PATH
+ PATH=$(echo ${PATH/:$ZX_PATH/})
+ PATH=$(echo ${PATH/:$ZX_LN/})
+ 	unset ZX_NUMBERS
+	unset ZX_MODE
+	unset ZX_LN
+	unset ZX_PATH
+	unset ZX_SRC
+        unset ZX_SAVE	
+	unalias ..
+	unalias zx_list
+        unalias zxlist
+        unalias zxunsetup
+        unalias zxenv
+        unalias zxcopy
+	unset zx_is_sourced 
+    } 
+fi
+
+
+

@@ -1,4 +1,3 @@
 #!/bin/bash
-. $(dirname $0)/zxconf
-cat $ZXPROG
+cat $ZX_SRC
 

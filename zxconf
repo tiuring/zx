@@ -1,3 +1,0 @@
-#!/bin/bash
-ZXPROG=$(dirname $0)/zxprog
-
